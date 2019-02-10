@@ -16,8 +16,23 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view, typically from a nib.
+    
+
 }
 
+- (void)stackOverflow {
+    NSArray *resultMessages = [NSMutableArray arrayWithObject: @"Error message!"];
+    NSMutableArray *results = [[NSMutableArray alloc] init];
+    
+    for (NSObject *result in resultMessages)
+        [results addObject: results]; // Whoops!
+    
+    NSLog(@"Results: %@", results);
+}
+
+- (IBAction)crashClicked:(UIButton *)sender {
+    NSMutableArray *emptyArray = [NSMutableArray new];
+    NSLog(@"Print first element of the array: %@", emptyArray[0]);
+}
 
 @end

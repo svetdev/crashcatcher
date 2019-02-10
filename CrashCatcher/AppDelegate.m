@@ -7,6 +7,7 @@
 //
 
 #import "AppDelegate.h"
+#import <PLCrashReporter/CrashReporter/CrashReporter.h>
 
 @interface AppDelegate ()
 
@@ -17,8 +18,82 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+    PLCrashReporter *crashReporter = [PLCrashReporter sharedReporter];
+         NSError *error;
+    
+         // Check if we previously crashed
+         if ([crashReporter hasPendingCrashReport])
+                [self handleCrashReport];
+    
+         // Enable the Crash Reporter
+         if (![crashReporter enableCrashReporterAndReturnError: &error])
+                NSLog(@"Warning: Could not enable crash reporter: %@", error);
+    
     return YES;
 }
+
+
+-(void)handleCrashReport {
+    PLCrashReporter *crashReporter = [PLCrashReporter sharedReporter];
+    NSData *crashData;
+    NSError *error;
+    
+    // Try loading the crash report
+    crashData = [crashReporter loadPendingCrashReportDataAndReturnError: &error];
+    if (crashData == nil) {
+        NSLog(@"Could not load crash report: %@", error);
+        [crashReporter purgePendingCrashReport];
+        return;
+    }
+    
+    // We could send the report from here, but we'll just print out
+    // some debugging info instead
+    PLCrashReport *report = [[PLCrashReport alloc] initWithData: crashData error: &error] ;
+    if (report == nil) {
+        NSLog(@"Could not parse crash report");
+        [crashReporter purgePendingCrashReport];
+        return;
+    }
+    
+    NSLog(@"Crashed on %@", report.systemInfo.timestamp);
+    NSLog(@"Crashed with signal %@ (code %@, address=0x%" PRIx64 ")", report.signalInfo.name,
+                    report.signalInfo.code, report.signalInfo.address);
+    [crashReporter purgePendingCrashReport];
+    return;
+ 
+}
+
+-(void)sendReport:(PLCrashReport*) report {
+   
+    NSError *error;
+    
+    NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
+    NSURLSession *session = [NSURLSession sessionWithConfiguration:configuration delegate:nil delegateQueue:nil];
+    NSURL *url = [NSURL URLWithString:@"[JSON SERVER"];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url
+                                                           cachePolicy:NSURLRequestUseProtocolCachePolicy
+                                                       timeoutInterval:60.0];
+    
+    [request addValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    [request addValue:@"application/json" forHTTPHeaderField:@"Accept"];
+    
+    [request setHTTPMethod:@"POST"];
+    NSDictionary *mapData = [[NSDictionary alloc] initWithObjectsAndKeys:
+                             report.systemInfo.timestamp, @"timestamp",
+                             @"IOS TYPE", @"typemap",
+                             nil];
+    NSData *postData = [NSJSONSerialization dataWithJSONObject:mapData options:0 error:&error];
+    [request setHTTPBody:postData];
+    
+    
+    NSURLSessionDataTask *postDataTask = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+        
+    }];
+    
+    [postDataTask resume];
+}
+
+
 
 
 - (void)applicationWillResignActive:(UIApplication *)application {

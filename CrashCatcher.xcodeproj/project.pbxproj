@@ -13,9 +13,13 @@
 		A18675A0220F244500D09E68 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A186759F220F244500D09E68 /* Assets.xcassets */; };
 		A18675A3220F244500D09E68 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A18675A1220F244500D09E68 /* LaunchScreen.storyboard */; };
 		A18675A6220F244500D09E68 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = A18675A5220F244500D09E68 /* main.m */; };
+		F47BC34341AD7B7F7BB0BA1D /* libPods-CrashCatcher.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D60DF4AF0CB6A18D743FF25 /* libPods-CrashCatcher.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		34145CC5433096D8E5538B79 /* Pods-CrashCatcher.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CrashCatcher.debug.xcconfig"; path = "Pods/Target Support Files/Pods-CrashCatcher/Pods-CrashCatcher.debug.xcconfig"; sourceTree = "<group>"; };
+		3D60DF4AF0CB6A18D743FF25 /* libPods-CrashCatcher.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-CrashCatcher.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		53629D92434D7617F03A4CE2 /* Pods-CrashCatcher.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CrashCatcher.release.xcconfig"; path = "Pods/Target Support Files/Pods-CrashCatcher/Pods-CrashCatcher.release.xcconfig"; sourceTree = "<group>"; };
 		A1867593220F244400D09E68 /* CrashCatcher.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CrashCatcher.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A1867596220F244400D09E68 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		A1867597220F244400D09E68 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -33,17 +37,37 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F47BC34341AD7B7F7BB0BA1D /* libPods-CrashCatcher.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1759E87FD4286194D3048757 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				3D60DF4AF0CB6A18D743FF25 /* libPods-CrashCatcher.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		99F6F2CA7CD2105F66D7C68F /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				34145CC5433096D8E5538B79 /* Pods-CrashCatcher.debug.xcconfig */,
+				53629D92434D7617F03A4CE2 /* Pods-CrashCatcher.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 		A186758A220F244400D09E68 = {
 			isa = PBXGroup;
 			children = (
 				A1867595220F244400D09E68 /* CrashCatcher */,
 				A1867594220F244400D09E68 /* Products */,
+				99F6F2CA7CD2105F66D7C68F /* Pods */,
+				1759E87FD4286194D3048757 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -78,6 +102,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = A18675A9220F244500D09E68 /* Build configuration list for PBXNativeTarget "CrashCatcher" */;
 			buildPhases = (
+				F3B11D63526229989E40125E /* [CP] Check Pods Manifest.lock */,
 				A186758F220F244400D09E68 /* Sources */,
 				A1867590220F244400D09E68 /* Frameworks */,
 				A1867591220F244400D09E68 /* Resources */,
@@ -135,6 +160,31 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		F3B11D63526229989E40125E /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-CrashCatcher-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		A186758F220F244400D09E68 /* Sources */ = {
@@ -283,6 +333,7 @@
 		};
 		A18675AA220F244500D09E68 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 34145CC5433096D8E5538B79 /* Pods-CrashCatcher.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -299,6 +350,7 @@
 		};
 		A18675AB220F244500D09E68 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 53629D92434D7617F03A4CE2 /* Pods-CrashCatcher.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
